@@ -1,5 +1,17 @@
 import inquirer from "inquirer";
-import fs from "fs";
+import fs from "fs/promises";
+import { generate } from "rxjs";
+
+const licenses = {
+  Apache:
+    "[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)",
+  MIT: "[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)",
+  BSD: "[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)",
+};
+
+function generateLicence(licence) {
+  return licenses[licence];
+}
 
 const prompt = await inquirer.prompt([
   {
@@ -34,15 +46,10 @@ const prompt = await inquirer.prompt([
     message: "Please specify test instructions",
   },
   {
-    type: "input",
-    name: "contents",
-    message: "Please provide the table of contents",
-  },
-
-  {
-    type: "input",
+    type: "list",
     name: "license",
     message: "Please specify the licence",
+    choices: ["Apache", "MIT", "BSD"],
   },
   {
     type: "input",
@@ -61,7 +68,6 @@ const prompt = await inquirer.prompt([
 // When a user enters their email address then this is added to the section of the README entitled Questions, with instructions on how to reach them with additional questions
 // When a user clicks on the links in the Table of Contents then they are taken to the corresponding section of the README
 
-console.log(prompt); // { title: 'eewqw', description: 'rewq' }
 const {
   title,
   description,
@@ -69,34 +75,54 @@ const {
   usage,
   contributing,
   tests,
-  contents,
   license,
   authors,
   email,
 } = prompt;
 
+function generateTableOfContents(prompt) {
+  const result = ``;
+  Object.keys(prompt).forEach((content) => {
+    result += content;
+  });
+
+  return result;
+}
+
 const readmeText = `
   # ${title[0].toUpperCase()}${title.substring(1)}
+
+  ${generateLicence(license)}
+
   ## Description
   ${description}
+
+  ## Table of Contents // add links 
+  ${generateTableOfContents(prompt)}
+
   ## Installation
   ${installation}
+
   ## Usage
   ${usage}
+
   ## Contributing
   ${contributing}
+
   ## Tests
   ${tests}
-  ## Contents
-  ${contents}
+
   ## License
   ${license}
+
   ## Authors
   ${authors}
+
   ## Email
   ${email}
-
 `;
+
+// add questions
 
 fs.writeFile("./README.md", readmeText, (err) =>
   err ? console.log(err) : console.log("Success!")
