@@ -14,12 +14,15 @@ function generateLicence(licence) {
 
 function generateTableOfContents(prompt) {
   let result = ``;
-  Object.keys(prompt).forEach((content) => {
+  const contents = Object.keys(prompt);
+  contents.slice(0, contents.length - 1).forEach((content) => {
+    if (content === "email" || content === "github") {
+      content = "questions";
+    }
     result += `* [${content}](#${content
       .toLowerCase()
       .split(" ")
       .join("-")})\n`;
-    console.log(content);
   });
 
   return result;
@@ -41,44 +44,44 @@ const prompt = await inquirer.prompt([
     name: "installation",
     message: "Please provide installation instructions",
   },
-  // {
-  //   type: "input",
-  //   name: "usage",
-  //   message: "Please provide usage info",
-  // },
-  // {
-  //   type: "input",
-  //   name: "contributing",
-  //   message: "Please specify contribution guidelines",
-  // },
+  {
+    type: "input",
+    name: "usage",
+    message: "Please provide usage info",
+  },
+  {
+    type: "input",
+    name: "contributing",
+    message: "Please specify contribution guidelines",
+  },
 
-  // {
-  //   type: "input",
-  //   name: "tests",
-  //   message: "Please specify test instructions",
-  // },
+  {
+    type: "input",
+    name: "tests",
+    message: "Please specify test instructions",
+  },
   {
     type: "list",
     name: "license",
     message: "Please specify the licence",
     choices: ["Apache", "MIT", "BSD"],
   },
-  // {
-  //   type: "input",
-  //   name: "authors",
-  //   message: "Please provide contributing authors",
-  // },
-  // {
-  //   type: "input",
-  //   name: "email",
-  //   message: "Please provide email address",
-  // },
+  {
+    type: "input",
+    name: "authors",
+    message: "Please provide contributing authors",
+  },
+  {
+    type: "input",
+    name: "github",
+    message: "Please provide GitHub username",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "Please provide email address",
+  },
 ]);
-
-// When a user chooses a license for their application from a list of options then a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
-// When a user enters their GitHub username then this is added to the section of the README entitled Questions, with a link to their GitHub profile
-// When a user enters their email address then this is added to the section of the README entitled Questions, with instructions on how to reach them with additional questions
-// When a user clicks on the links in the Table of Contents then they are taken to the corresponding section of the README
 
 const {
   title,
@@ -89,6 +92,7 @@ const {
   tests,
   license,
   authors,
+  github,
   email,
 } = prompt;
 
@@ -121,11 +125,10 @@ const readmeText = `
   ## Authors
   ${authors}
 
-  ## Email
-  ${email}
+  ## Questions
+  ${email}\n
+  ${github}
 `;
-
-// add questions
 
 fs.writeFile("./README.md", readmeText, (err) =>
   err ? console.log(err) : console.log("Success!")
