@@ -1,6 +1,5 @@
 import inquirer from "inquirer";
 import fs from "fs/promises";
-import { generate } from "rxjs";
 
 const licenses = {
   Apache:
@@ -11,6 +10,19 @@ const licenses = {
 
 function generateLicence(licence) {
   return licenses[licence];
+}
+
+function generateTableOfContents(prompt) {
+  let result = ``;
+  Object.keys(prompt).forEach((content) => {
+    result += `* [${content}](#${content
+      .toLowerCase()
+      .split(" ")
+      .join("-")})\n`;
+    console.log(content);
+  });
+
+  return result;
 }
 
 const prompt = await inquirer.prompt([
@@ -29,38 +41,38 @@ const prompt = await inquirer.prompt([
     name: "installation",
     message: "Please provide installation instructions",
   },
-  {
-    type: "input",
-    name: "usage",
-    message: "Please provide usage info",
-  },
-  {
-    type: "input",
-    name: "contributing",
-    message: "Please specify contribution guidelines",
-  },
+  // {
+  //   type: "input",
+  //   name: "usage",
+  //   message: "Please provide usage info",
+  // },
+  // {
+  //   type: "input",
+  //   name: "contributing",
+  //   message: "Please specify contribution guidelines",
+  // },
 
-  {
-    type: "input",
-    name: "tests",
-    message: "Please specify test instructions",
-  },
+  // {
+  //   type: "input",
+  //   name: "tests",
+  //   message: "Please specify test instructions",
+  // },
   {
     type: "list",
     name: "license",
     message: "Please specify the licence",
     choices: ["Apache", "MIT", "BSD"],
   },
-  {
-    type: "input",
-    name: "authors",
-    message: "Please provide contributing authors",
-  },
-  {
-    type: "input",
-    name: "email",
-    message: "Please provide email address",
-  },
+  // {
+  //   type: "input",
+  //   name: "authors",
+  //   message: "Please provide contributing authors",
+  // },
+  // {
+  //   type: "input",
+  //   name: "email",
+  //   message: "Please provide email address",
+  // },
 ]);
 
 // When a user chooses a license for their application from a list of options then a badge for that license is added near the top of the README and a notice is added to the section of the README entitled License that explains which license the application is covered under
@@ -80,15 +92,6 @@ const {
   email,
 } = prompt;
 
-function generateTableOfContents(prompt) {
-  const result = ``;
-  Object.keys(prompt).forEach((content) => {
-    result += content;
-  });
-
-  return result;
-}
-
 const readmeText = `
   # ${title[0].toUpperCase()}${title.substring(1)}
 
@@ -97,7 +100,7 @@ const readmeText = `
   ## Description
   ${description}
 
-  ## Table of Contents // add links 
+  ## Table of Contents
   ${generateTableOfContents(prompt)}
 
   ## Installation
