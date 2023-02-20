@@ -1,10 +1,10 @@
 
-  # Wrerwq
+  # Readme generator
 
-  [![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
   ## Description
-  reqwr
+  A read me generator Node.js application
 
   ## Table of Contents
   * [title](#title)
@@ -19,24 +19,24 @@
 
 
   ## Installation
-  rewqr
+  npm node
 
   ## Usage
-  rewqr
+  command line 
 
   ## Contributing
-  rewqr
+  dsafsdfasfd
 
   ## Tests
-  rewqr
+  fdasdfafd
 
   ## License
-  Apache
+  MIT
 
   ## Authors
-  reqwr
+  Dan Trovato
 
   ## Questions
-  rqw
+  dantrovato@gmail.com
 
-  rewq
+  https://github.com/dantrovato
